@@ -1,0 +1,90 @@
+@import '../../../styles.scss';
+
+::ng-deep app-drawer {
+    width: auto;
+    border-radius: 0;
+    transition: 300ms;
+    max-width: 320px;
+    z-index: 9999;
+}
+
+mat-toolbar {
+    background-color: get-color(surface);
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+}
+
+.section-heder-custom .title-row {
+    align-content: end;
+    h4 {
+        margin-bottom: 0;
+    }
+}
+
+.logo {
+    margin-right: 8px;
+}
+
+.rail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    max-width: 72px;
+    margin-top: 66px;
+
+    .list-item {
+        flex-direction: column;
+        padding: 6px 4px;
+        gap: 0;
+
+        &[selected*="true"] {
+            background-color: unset;
+
+            .meta h4 {
+                color: get-color(secondary);
+            }
+    
+            .list-img {
+                border: 2px get-color(secondary) solid;
+                box-sizing: border-box;
+            }
+        }
+    }
+
+    button {
+        display: none;
+    }
+
+    .meta {
+        overflow: hidden;
+        width: 100%;
+        text-align: center;
+        padding: 4px 0 0 0 !important;
+
+        h4 {
+            font-size: 12px;
+        }
+
+        p {
+            display: none;
+        }
+    }
+}
+
+
+.tertiary-button {
+    color: get-color(on-tertiary-container);
+    background-color: get-color(tertiary-container);
+    box-shadow: none;
+    margin: 8px 0 0 8px;
+    align-self: flex-start;
+
+    &:hover {
+        box-shadow: none;
+    }
+}

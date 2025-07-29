@@ -1,0 +1,61 @@
+<div class="col">
+    <mat-toolbar>
+        <button mat-icon-button aria-label="Example icon-button with menu icon"
+            (click)="signals.drawerOpen.set(!signals.drawerOpen())">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <div class="list-img logo" [@resizeAnimation]="signals.drawerOpen()" [class.hidden]="!signals.drawerOpen()">
+            <mat-icon hidden>menu</mat-icon>
+        </div>
+
+        <span [@resizeAnimation]="signals.drawerOpen()">
+            Trip planner
+        </span>
+        <span class="spacer"></span>
+    </mat-toolbar>
+
+    <button mat-fab aria-label="" [extended]="signals.drawerOpen()" color="tertiary" class="tertiary-button">
+        <mat-icon class="google-symbols">add</mat-icon>
+        @if (signals.drawerOpen()) {
+        New trip
+        }
+    </button>
+
+    @if (signals.trips().length > 0) {
+        <div class="section-header section-heder-custom" [class.hidden]="!signals.drawerOpen()">
+            <div class="title-row">
+                <h4 class="label-large">Your trips</h4>
+            </div>
+            <span class="body-medium" hidden>Lorem ipsum dolor sit amet concequer enim concequer</span>
+        </div>
+        
+        <div class="rail-list" [classList]="signals.drawerOpen()? 'list' : 'rail-list'">
+            @for (item of signals.trips(); track $index) {
+            <div class="list-item" mat-ripple (click)="signals.selectedTrip.set(item); signals.panelState.set(item)" [attr.selected]="item === signals.selectedTrip()">
+                <div class="list-img" style="background-image: url({{item.imgUrl}});">
+                    <mat-icon hidden>menu</mat-icon>
+                </div>
+    
+                <div class="meta">
+                    <h4 class="label-large">{{item.name}}</h4>
+                    <p class="body-medium">{{months[item.startDate.getMonth()]}} {{item.startDate.getFullYear()}}</p>
+                </div>
+    
+                <button mat-icon-button aria-label="" (click)="$event.stopPropagation();">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+            }
+        </div>
+    }
+
+    <div class="spacer-vert"></div>
+
+    <div class="disclaimer" [class.hidden]="!signals.drawerOpen()">
+        <mat-icon class="google-symbols">info</mat-icon>
+        <p class="body-small">
+            The Trip Planner is not affiliated with Google in any way. Designed & built with love by Ben Shishko 
+        </p>
+    </div>
+</div>

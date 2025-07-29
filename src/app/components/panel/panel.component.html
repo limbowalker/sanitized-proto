@@ -1,0 +1,35 @@
+@if (signals.panelState()) {
+    @if (!isMobile) {
+        <div class="floating-panel mat-elevation-z2">
+            @switch (signals.panelState()) {
+                @case (signals.selectedTrip()) {
+                    <app-panel-details></app-panel-details>
+                    <button mat-fab aria-label="" extended="true" color="tertiary" class="tertiary-button" [class]="'fab'" (click)="signals.panelState.set('search_city')">
+                        <mat-icon class="google-symbols">add</mat-icon>
+                        Add city
+                    </button>
+                }
+
+                @case ('search_city') {
+                    <app-panel-search></app-panel-search>
+                }
+
+                @case ('search_place') {
+                    <app-panel-search></app-panel-search>
+                }
+
+                @default {
+                    <p>panel undefined</p>
+                    <button (click)="signals.closePanel()">exit search</button>
+                }
+            }
+        </div>
+    }
+    @else {
+        <!--Implement bottom sheet-->
+    }
+}
+@else {
+    <!--Hide panel-->
+}
+

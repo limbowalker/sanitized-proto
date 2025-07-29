@@ -1,0 +1,109 @@
+<mat-toolbar>
+    <button mat-icon-button aria-label="Close" (click)="signals.closePanel()">
+        <mat-icon class="google-symbols">close</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <button mat-icon-button aria-label="Share trip">
+        <mat-icon class="google-symbols">share</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="More">
+        <mat-icon class="google-symbols">more_vert</mat-icon>
+    </button>
+</mat-toolbar>
+
+<div class="col">    
+    <app-discrete-input [param]="'name'" [size]="'large'" [type]="'text'"></app-discrete-input>
+    <app-discrete-input [param]="'name'" [size]="'default'" [type]="'date'"></app-discrete-input>
+</div>
+
+
+<div 
+    class="col-list"
+    cdkDropList
+    #cityList="cdkDropList"
+    [cdkDropListData]="signals.selectedTrip()!.places"
+    (cdkDropListDropped)="drop($event)"
+>
+
+    @for (item of signals.selectedTrip()!.places; track $index) {
+        <div
+            cdkDropList
+            cdkDrag
+            #placeList="cdkDropList"
+            [cdkDropListData]="item.places"
+            [cdkDropListConnectedTo]="[item.displayName]"
+            (cdkDropListDropped)="drop($event)"
+            class="contained-list"
+        >
+        <div class="list-placeholder" *cdkDragPlaceholder></div>
+
+        <div class="heading">
+            <div class="list-item" mat-ripple (click)="showOnMap(item)" [attr.selected]="signals.selectedPlace() == item">
+                <div class="list-img list-icon">
+                    <mat-icon class="google-symbols">location_on</mat-icon>
+                </div>
+    
+                <div class="meta">
+                    <h4 class="label-large">{{item.displayName}}</h4>
+                    <p class="body-medium">{{item.comment}}</p>
+                </div>
+    
+                <button mat-icon-button aria-label="" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation();">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu" class="mat-context-menu">
+                    <button mat-menu-item>
+                      <mat-icon class="google-symbols">edit</mat-icon>
+                      <span>Edit</span>
+                    </button>
+                    <button mat-menu-item (click)="signals.deletePlace(item)">
+                      <mat-icon class="google-symbols">delete</mat-icon>
+                      <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+
+        <div class="contained-wrapper">
+            @for (place of item.places; track $index) {
+                <div class="list-item-outlined" cdkDrag>
+                    <div class="list-item" mat-ripple (click)="showOnMap(place)" [attr.selected]="signals.selectedPlace() == place">
+                        <div class="list-img" style="background-image: url({{place.imgUrl}});">
+                            <mat-icon hidden>menu</mat-icon>
+                        </div>
+            
+                        <div class="meta">
+                            <h4 class="label-large">{{place.displayName}}</h4>
+                            <p class="body-medium">{{place.comment}}</p>
+                        </div>
+            
+                        <button mat-icon-button aria-label="" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation();" style="margin-right: -8px;">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+
+                        <mat-menu #menu="matMenu" class="mat-context-menu">
+                            <button mat-menu-item>
+                              <mat-icon class="google-symbols">edit</mat-icon>
+                              <span>Edit</span>
+                            </button>
+                            <button mat-menu-item (click)="signals.contextPlace.set(item); signals.deleteLandmark(place)">
+                              <mat-icon class="google-symbols">delete</mat-icon>
+                              <span>Delete</span>
+                            </button>
+                        </mat-menu>
+        
+                        <div class="place-placeholder" *cdkDragPlaceholder></div>
+                        <div class="border-inset"></div>
+                    </div>
+                    <div class="divider"></div>
+                </div> 
+            }
+            <button mat-button (click)="signals.contextPlace.set(item);  signals.panelState.set('search_place')">
+                <mat-icon class="google-symbols">add</mat-icon>
+                Add landmark
+            </button>
+        </div>
+        </div>
+    }
+</div>

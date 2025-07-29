@@ -1,0 +1,34 @@
+<div class="col">
+    <mat-toolbar class="search" matAutocompleteOrigin #origin="matAutocompleteOrigin">
+        <button mat-icon-button class="google-symbols" aria-label="Back" (click)="signals.closeSearch()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+  
+        <mat-form-field class="search-field" [autofocus]="true" appearance="outline">
+            <input matInput #searchInput
+                type="text"
+                placeholder="Search for a place..." 
+                [formControl]="searchControl"
+                [matAutocomplete]="auto" 
+                [matAutocompleteConnectedTo]="origin"
+                style="margin-left: -8px;"
+            >
+            @if (searchControl.value) {
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.reset()">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+    </mat-toolbar>
+
+    <div class="autocomplete">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="submitSearch($event.option.value)">
+            @for (option of autocompleteOptions; track $index) {
+                <mat-option [value]="option" class="singleLine">
+                    <mat-icon matListItemIcon class="google-symbols">location_on</mat-icon>
+                    {{option.displayName}} <span class="address">({{option.formattedAddress}})</span>
+                </mat-option>
+            }
+          </mat-autocomplete>          
+    </div>
+</div>

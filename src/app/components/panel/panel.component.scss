@@ -1,0 +1,12 @@
+@import '../../../styles.scss';
+
+.floating-panel {
+    width: 376px;
+    height: calc(100vh - 48px);
+    margin: 24px;
+    position: absolute;
+    background-color: get-color(surface);
+    border-radius: 24px;
+    overflow: hidden;
+    z-index: 111;
+}
