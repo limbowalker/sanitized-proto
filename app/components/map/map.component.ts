@@ -14,8 +14,6 @@ import { Landmark } from '../../types';
   styleUrl: './map.component.scss'
 })
 export class MapComponent {
-
-  //googleMap!: GoogleMap; 
   @ViewChild(GoogleMap) googleMap!: GoogleMap; 
 
   constructor(protected signals: SignalService) {
@@ -54,7 +52,4 @@ export class MapComponent {
   move(event: google.maps.MapMouseEvent) {
     this.display = event.latLng!.toJSON();
   }
-
-  //ben
-  //ben
 }

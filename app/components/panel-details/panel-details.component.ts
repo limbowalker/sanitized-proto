@@ -18,7 +18,6 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Landmark, Place } from '../../types';
 
-
 @Component({
   selector: 'app-panel-details',
   standalone: true,
@@ -62,8 +61,5 @@ export class PanelDetailsComponent {
       this.signals.selectedPlace.set(place);
     }
   }
-
-  //ben
-  //ben
 }
   
