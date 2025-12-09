@@ -23,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class PanelComponent {
   constructor(protected signals: SignalService, protected breakpoint: BreakpointObserver) {
     const layoutChanges = breakpoint.observe('(max-width: 768px)');
-    const subscription = layoutChanges.subscribe( res => {
+    const subscription = layoutChanges.subscribe((res: { matches: boolean }) => {
       this.isMobile = res.matches;
     })
   }

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SignalService } from './signal.service';
-import { Landmark, Place, Trip } from '../types';
+import { Landmark, Place, Trip } from '../../types';
 
 describe('SignalService', () => {
   let service: SignalService;

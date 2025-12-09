@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 
-import { Landmark, Place, Trip } from '../../types';
+import { Landmark, Place, Trip } from '../../../types';
 
 @Component({
   selector: 'app-panel-search',

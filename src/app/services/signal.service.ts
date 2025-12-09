@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { Landmark, Place, Trip, User } from '../types';
-import { proto } from '../types';
+import { Landmark, Place, Trip, User } from '../../types';
+import { proto } from '../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -41,13 +41,13 @@ export class SignalService {
     this.selectedTrip.update((currentTrip: Trip | null) => { 
       if (currentTrip && this.contextPlace()) {
         const place = this.contextPlace(); 
-        const placeIndex = currentTrip.places.findIndex(p => p.id === place!.id);
+        const placeIndex = currentTrip.places.findIndex((p: Place) => p.id === place!.id);
   
         if (placeIndex !== -1) {
           // Create a new trip object with updated places array for immutability
           return {
             ...currentTrip,
-            places: currentTrip.places.map((p, idx) => 
+            places: currentTrip.places.map((p: Place, idx: number) => 
               idx === placeIndex 
                 ? { ...p, places: [...p.places, landmark] }
                 : p
@@ -85,7 +85,7 @@ export class SignalService {
         // Create a new trip object with filtered places array for immutability
         return {
           ...currentTrip,
-          places: currentTrip.places.filter(el => el !== place)
+          places: currentTrip.places.filter((el: Place) => el !== place)
         };
       } else {
         console.error('No trip selected');
@@ -98,15 +98,15 @@ export class SignalService {
     this.selectedTrip.update((currentTrip: Trip | null) => {
       if(currentTrip && this.contextPlace()) {
         const place = this.contextPlace(); 
-        const placeIndex = currentTrip.places.findIndex(p => p.id === place!.id);
+        const placeIndex = currentTrip.places.findIndex((p: Place) => p.id === place!.id);
   
         if (placeIndex !== -1) {
           // Create a new trip object with updated places array for immutability
           return {
             ...currentTrip,
-            places: currentTrip.places.map((p, idx) => 
+            places: currentTrip.places.map((p: Place, idx: number) => 
               idx === placeIndex 
-                ? { ...p, places: p.places.filter(el => el !== landmark) }
+                ? { ...p, places: p.places.filter((el: Landmark) => el !== landmark) }
                 : p
             )
           };
