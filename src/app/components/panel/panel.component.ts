@@ -5,6 +5,7 @@ import { PanelSearchComponent } from "../panel-search/panel-search.component";
 import { PanelDetailsComponent } from "../panel-details/panel-details.component";
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Subscription } from 'rxjs';
 
 
 
@@ -20,13 +21,19 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss'
 })
-export class PanelComponent {
+export class PanelComponent implements OnDestroy {
+  private subscription: Subscription;
+
   constructor(protected signals: SignalService, protected breakpoint: BreakpointObserver) {
     const layoutChanges = breakpoint.observe('(max-width: 768px)');
-    const subscription = layoutChanges.subscribe((res: { matches: boolean }) => {
+    this.subscription = layoutChanges.subscribe((res: { matches: boolean }) => {
       this.isMobile = res.matches;
     })
   }
 
   isMobile = false;
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
