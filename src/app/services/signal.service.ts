@@ -44,8 +44,15 @@ export class SignalService {
         const placeIndex = currentTrip.places.findIndex(p => p.id === place!.id);
   
         if (placeIndex !== -1) {
-          currentTrip.places[placeIndex].places.push(landmark); 
-          return currentTrip;
+          // Create a new trip object with updated places array for immutability
+          return {
+            ...currentTrip,
+            places: currentTrip.places.map((p, idx) => 
+              idx === placeIndex 
+                ? { ...p, places: [...p.places, landmark] }
+                : p
+            )
+          };
         } else {
           console.error('Context place not found in the trip.');
           return currentTrip;
@@ -60,9 +67,11 @@ export class SignalService {
   addPlace(place: Place) {
     this.selectedTrip.update((currentTrip: Trip | null) => {
       if(currentTrip) {
-        const trip = this.selectedTrip();
-        currentTrip.places.push(place);
-        return currentTrip;
+        // Create a new trip object with updated places array for immutability
+        return {
+          ...currentTrip,
+          places: [...currentTrip.places, place]
+        };
       } else {
         console.error('No trip selected');
         return currentTrip;
@@ -73,10 +82,11 @@ export class SignalService {
   deletePlace(place: Place) {
     this.selectedTrip.update((currentTrip: Trip | null) => {
       if(currentTrip) {
-        const newPlaces = currentTrip!.places.filter( el => el !== place);
-        currentTrip!.places = newPlaces;
-
-        return currentTrip;
+        // Create a new trip object with filtered places array for immutability
+        return {
+          ...currentTrip,
+          places: currentTrip.places.filter(el => el !== place)
+        };
       } else {
         console.error('No trip selected');
         return currentTrip;
@@ -91,10 +101,15 @@ export class SignalService {
         const placeIndex = currentTrip.places.findIndex(p => p.id === place!.id);
   
         if (placeIndex !== -1) {
-          const newPlaces = currentTrip.places[placeIndex].places.filter( el => el !== landmark);
-          currentTrip.places[placeIndex].places = newPlaces; 
-
-          return currentTrip;
+          // Create a new trip object with updated places array for immutability
+          return {
+            ...currentTrip,
+            places: currentTrip.places.map((p, idx) => 
+              idx === placeIndex 
+                ? { ...p, places: p.places.filter(el => el !== landmark) }
+                : p
+            )
+          };
         } else {
           console.error('Context place not found in the trip.');
           return currentTrip;
