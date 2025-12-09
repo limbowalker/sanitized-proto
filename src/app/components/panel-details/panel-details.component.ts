@@ -16,7 +16,7 @@ import {
   CdkDropList,
   CdkDragPlaceholder,
 } from '@angular/cdk/drag-drop';
-import { Landmark, Place } from '../../types';
+import { Landmark, Place } from '../../../types';
 
 @Component({
   selector: 'app-panel-details',

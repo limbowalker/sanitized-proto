@@ -37,3 +37,12 @@ export interface LatLng {
     lng: number
 }
 
+export interface User {
+    uid: string,
+    displayName: string,
+    photoUrl: string,
+    email: string,
+}
+
+// Prototype data for testing
+export const proto: Trip[] = [];

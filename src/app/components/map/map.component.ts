@@ -1,7 +1,7 @@
 import { Component, effect, ViewChild } from '@angular/core';
 import {GoogleMap, GoogleMapsModule} from '@angular/google-maps';
 import { SignalService } from '../../services/signal.service';
-import { Landmark } from '../../types';
+import { Landmark } from '../../../types';
 
 @Component({
   selector: 'app-map',
@@ -16,15 +16,7 @@ import { Landmark } from '../../types';
 export class MapComponent {
   @ViewChild(GoogleMap) googleMap!: GoogleMap; 
 
-  constructor(protected signals: SignalService) {
-    effect(() => {
-      if(this.signals.selectedPlace()) {
-        this.jumpTo();
-      }
-    }, { allowSignalWrites: true });
-  }
-
-  center: google.maps.LatLngLiteral = this.signals.selectedTrip()?.places[0].latLng || {lat: 24, lng: 12};
+  center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
   zoom = 6;
   display!: google.maps.LatLngLiteral;
 
@@ -35,6 +27,19 @@ export class MapComponent {
     zoomControl: true
   };
 
+  constructor(protected signals: SignalService) {
+    effect(() => {
+      if(this.signals.selectedPlace()) {
+        this.jumpTo();
+      }
+    });
+    
+    // Set initial center if a trip with places is selected
+    const selectedTrip = this.signals.selectedTrip();
+    if (selectedTrip && selectedTrip.places.length > 0) {
+      this.center = selectedTrip.places[0].latLng;
+    }
+  }
   
   jumpTo() {
     if(this.signals.selectedPlace()) {
